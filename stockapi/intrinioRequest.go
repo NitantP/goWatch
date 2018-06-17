@@ -14,17 +14,16 @@ func IntrinioQuery() {
     var httpRequestHeaderValue = "Basic " + base64.StdEncoding.EncodeToString([]byte(authUsername + ":" + authPassword))
     
     client := &http.Client{}
-    response, err := client.Get("https://api.intrinio.com/indices?type=sic")
+    
+    request, err:= http.NewRequest("GET", "https://api.intrinio.com/indices?type=sic", nil)
     if err != nil {
-        fmt.Printf("Error creating the client\n")
+        fmt.Printf("Error creating the HTTP request\n")
         return
     }
-    
-    request, err := http.NewRequest("GET", "https://api.intrinio.com/indices?type=sic", nil)
     request.Header.Add(httpRequestHeaderKey, httpRequestHeaderValue)
     
-    response, err = client.Do(request)
-    if err != nil {
+    response, err2 := client.Do(request)
+    if err2 != nil {
         fmt.Printf("Error servicing the HTTP request\n")
     } else {
         data, _ := ioutil.ReadAll(response.Body)
