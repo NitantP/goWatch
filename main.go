@@ -1,7 +1,7 @@
 package main
 
-import "goWatch/intrinio"
+import "goWatch/stockapi"
 
 func main() {
-    intrinio.IntrinioQuery()
+    stockapi.IntrinioQuery()
 }

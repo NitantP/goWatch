@@ -1,6 +1,6 @@
-package intrinio
+package stockapi
 
-import(
+import (
     "fmt"
     "io/ioutil"
     "net/http"

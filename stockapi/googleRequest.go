@@ -1,7 +1,17 @@
-package googlerequest
-import "fmt"
-import "net/http"
-import "io/ioutil"
+package stockapi
+
+import (
+	"fmt"
+    "io/ioutil"
+    "net/http"
+	"strconv"
+)
+
+
+func BuildURL(stock string, interval int) string {
+
+	return "https://www.google.com/finance/getprices?q=" + stock + "&i=" + strconv.Itoa(interval) + "&f=d,c,o,h,l"
+}
 
 func RequestStockData(stock string, interval int) string {
 
