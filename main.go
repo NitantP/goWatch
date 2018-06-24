@@ -19,6 +19,7 @@ func main() {
     }
 
     inputText = strings.TrimSuffix(inputText, "\n")
+    inputText = strings.ToLower(inputText)
     industryNameMap := stockapi.GetIndustries()
     if !industryNameMap[inputText] {
         fmt.Printf("Industry name (%s) not found\n", inputText)

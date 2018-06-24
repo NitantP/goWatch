@@ -38,7 +38,7 @@ func GetIndustries() map[string]bool {
 				if(industryName != "" && !strings.HasPrefix(industryName, "\n ") && len(industryName) < 50) {
 					count++
 					if count >= 53 && count <= 261 {
-						industryNameMap[industryName] = true
+						industryNameMap[strings.ToLower(industryName)] = true
 						// fmt.Printf("Added %s to list (total: %d)\n", industryName, len(industryNameMap))
 						// fmt.Println("-----------------------------")
 					}
