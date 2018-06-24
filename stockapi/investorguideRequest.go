@@ -9,13 +9,13 @@ import (
 	"golang.org/x/net/html"
 )
 
-func GetIndustries() {
+func GetIndustries() map[string]bool {
 	var r io.Reader	
 
 	response, err := http.Get("http://www.investorguide.com/industry-list.php")
 	if err != nil {
-		fmt.Println("Error servicing the HTTP request: %s", err)
-		return
+		fmt.Printf("Error servicing the HTTP request: %s\n", err)
+		return nil
 	}
 	
 	data, _ := ioutil.ReadAll(response.Body)
@@ -26,21 +26,31 @@ func GetIndustries() {
 
 	for {
 		token := z.Next()
-		switch token {
-			case html.ErrorToken:
-				fmt.Println(z.Err())
-				return
-			case html.TextToken: 
+		if token == html.ErrorToken {
+			if z.Err() == io.EOF {
+				break
+			}
+			fmt.Println(z.Err())
+			return nil
+		}
+		if token == html.TextToken {
 				industryName := strings.TrimSpace(string(z.Text()))
 				if(industryName != "" && !strings.HasPrefix(industryName, "\n ") && len(industryName) < 50) {
 					count++
 					if count >= 53 && count <= 261 {
 						industryNameMap[industryName] = true
-						fmt.Printf("Added %s to list (total: %d)\n", industryName, len(industryNameMap))
-						fmt.Println("-----------------------------")
+						// fmt.Printf("Added %s to list (total: %d)\n", industryName, len(industryNameMap))
+						// fmt.Println("-----------------------------")
 					}
 				}
 		}
 	}
-	
+
+	// fmt.Printf("\n\nSize of map: %d\n\n", len(industryNameMap))
+	// for key, value := range industryNameMap {
+	// 	fmt.Printf("Key: %s, Value: %t\n", key, value)
+	// }
+
+	return industryNameMap
+
 }
